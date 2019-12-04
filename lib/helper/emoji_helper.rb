@@ -11,7 +11,7 @@ module RailsEmojiPicker
     string  = replace_unicode_moji_with_images(text) || text
     emoji   = string.scan(regex)
     unicodes = []
-    index = RailsEmojiPicker::EmojiMap.new
+    index = emoji_map
 
     emoji.each do |e|
       next if e.empty?
@@ -45,7 +45,7 @@ module RailsEmojiPicker
   end
 
   def replace_unicode_moji_with_images(string)
-    index = RailsEmojiPicker::EmojiMap.new
+    index = emoji_map
 
     string.gsub!(regex) do |moji|
       if moji.size < 2 && index.find_by_moji(moji)
@@ -79,7 +79,7 @@ module RailsEmojiPicker
   end
 
   def emoji_map
-    RailsEmojiPicker::EmojiMap
+    @emoji_map ||= RailsEmojiPicker::EmojiMap.new
   end
 
   def exceptions_emoji(emoji)
